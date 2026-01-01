@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Women Safety Alert</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#b30000">
+
+</head>
+
+<body>
+
+<header>
+  <h1>🛡️ Women Safety Alert</h1>
+  <p>One tap can save a life</p>
+</header>
+
+<section class="card">
+  <h3>Add Emergency Contact</h3>
+  <input id="name" placeholder="Name">
+  <input id="phone" placeholder="Phone Number">
+  <button onclick="addContact()">➕ Add</button>
+</section>
+
+<section class="card">
+  <h3>Emergency Contacts</h3>
+  <ul id="contactList"></ul>
+</section>
+
+<p id="status"></p>
+
+<button id="sosBtn">🚨 SOS</button>
+
+<audio id="siren" src="siren.mp3"></audio>
+
+<script src="script.js"></script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js")
+      .then(() => console.log("Service Worker Registered"));
+  }
+</script>
+
+</body>
+</html>
