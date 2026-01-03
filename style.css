@@ -1,81 +1,145 @@
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
+/* BACKGROUND */
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #fff0f0;
+  background: linear-gradient(#0f1533, #050816);
+  color: white;
+  min-height: 100vh;
   text-align: center;
 }
 
-header {
-  background: #b30000;
-  color: white;
+/* HEADER */
+.top-header {
+  background: linear-gradient(to right, #ff2f6d, #ff4d4d);
   padding: 15px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
+/* STATUS */
+.status {
+  margin: 10px;
+  color: #ffb3b3;
+  font-weight: bold;
+}
+
+/* SOS */
+.sos-wrapper {
+  margin-top: 60px;
+}
+
+#sosBtn {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  font-size: 42px;
+  font-weight: bold;
+  border: none;
+  color: white;
+  background: radial-gradient(circle at top, #ff5f5f, #b30000);
+  box-shadow: 0 0 40px rgba(255,0,0,0.8);
+  animation: pulse 1.5s infinite;
+}
+
+/* PULSE */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,0,0,0.7); }
+  70% { box-shadow: 0 0 0 35px rgba(255,0,0,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,0,0,0); }
+}
+
+/* BOTTOM BAR */
+.bottom-bar {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.small-btn {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+/* CARDS */
 .card {
-  background: white;
-  margin: 15px auto;
+  background: rgba(255,255,255,0.1);
+  margin: 20px auto;
   padding: 15px;
   width: 90%;
-  max-width: 380px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  max-width: 360px;
+  border-radius: 14px;
 }
 
 input {
   width: 95%;
   padding: 10px;
   margin: 6px 0;
-}
-
-button {
-  padding: 10px 15px;
+  border-radius: 8px;
   border: none;
-  background: #ff4d4d;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
 }
 
+/* CONTACT LIST */
 ul {
   list-style: none;
-  padding: 0;
+  margin-top: 10px;
 }
 
 li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #ffe6e6;
-  padding: 8px;
-  margin: 5px 0;
-  border-radius: 6px;
+  background: rgba(255,255,255,0.15);
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 6px;
 }
 
-li a {
+/* BACK */
+.back-btn {
+  display: block;
+  margin: 20px auto;
+  color: white;
   text-decoration: none;
-  font-size: 18px;
 }
 
-#status {
-  color: #b30000;
-  font-weight: bold;
-  margin: 10px;
-}
-
-/* Sticky SOS Button */
-#sosBtn {
+/* FAKE CALL */
+.fake-call {
   position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  font-size: 32px;
-  background: red;
-  box-shadow: 0 0 20px rgba(255,0,0,0.7);
+  inset: 0;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
+
+.hidden {
+  display: none;
+}
+
+.call-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 40px;
+}
+
+.call-buttons button {
+  width: 80px;
+  height: 80px;
+  font-size: 24px;
+  border-radius: 50%;
+  border: none;
+}
+
+.accept { background: green; }
+.decline { background: red; }
+
