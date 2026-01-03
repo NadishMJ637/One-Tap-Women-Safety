@@ -1,93 +1,138 @@
+// ================= CONTACT MANAGEMENT =================
 let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
 
-/* ---------- ADD CONTACT ---------- */
 function addContact() {
-  let name = document.getElementById("name").value.trim();
-  let phone = document.getElementById("phone").value.trim();
+  let nameInput = document.getElementById("name");
+  let phoneInput = document.getElementById("phone");
+
+  if (!nameInput || !phoneInput) return;
+
+  let name = nameInput.value.trim();
+  let phone = phoneInput.value.trim();
 
   if (!name || !phone) {
     alert("Please fill all fields");
     return;
   }
 
-  contacts.push({ name, phone });
+  // First contact becomes primary
+  let isPrimary = contacts.length === 0;
+
+  contacts.push({ name, phone, primary: isPrimary });
   localStorage.setItem("contacts", JSON.stringify(contacts));
 
-  document.getElementById("name").value = "";
-  document.getElementById("phone").value = "";
+  nameInput.value = "";
+  phoneInput.value = "";
 
   displayContacts();
 }
 
-/* ---------- DISPLAY CONTACTS ---------- */
 function displayContacts() {
   let list = document.getElementById("contactList");
+  if (!list) return;
+
   list.innerHTML = "";
 
   contacts.forEach((c, index) => {
     list.innerHTML += `
       <li>
-        ${c.name} - ${c.phone}
-        <a href="tel:${c.phone}">📞</a>
-        <button onclick="deleteContact(${index})">❌</button>
+        <strong>${c.name}</strong> - ${c.phone} ${c.primary ? "⭐" : ""}
+        <br>
+        <button onclick="setPrimary(${index})">Set Primary</button>
       </li>
     `;
   });
 }
 
-/* ---------- DELETE CONTACT ---------- */
-function deleteContact(index) {
-  contacts.splice(index, 1);
+function setPrimary(index) {
+  contacts.forEach(c => c.primary = false);
+  contacts[index].primary = true;
   localStorage.setItem("contacts", JSON.stringify(contacts));
   displayContacts();
 }
 
-/* ---------- SOS BUTTON ---------- */
-document.getElementById("sosBtn").onclick = () => {
-  const siren = document.getElementById("siren");
-  siren.currentTime = 0;
-  siren.play();
+// ================= SOS + LOCATION + WHATSAPP =================
+const sosBtn = document.getElementById("sosBtn");
 
-  if (contacts.length === 0) {
-    alert("Add emergency contacts first!");
-    return;
-  }
+if (sosBtn) {
+  sosBtn.onclick = () => {
+    const status = document.getElementById("status");
+    const siren = document.getElementById("siren");
 
-  if (!navigator.geolocation) {
-    alert("Geolocation not supported");
-    return;
-  }
-
-  document.getElementById("status").innerText =
-    "📍 Fetching live location...";
-
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      let lat = pos.coords.latitude;
-      let lon = pos.coords.longitude;
-
-      let message = `🚨 EMERGENCY ALERT!
-I am in danger.
-Live location:
-https://maps.google.com/?q=${lat},${lon}`;
-
-      // ✅ WhatsApp to PRIMARY contact only (reliable)
-      let primaryPhone = contacts[0].phone;
-
-      document.getElementById("status").innerText =
-        "🚨 SOS activated. Alert prepared.";
-
-      window.open(
-        `https://wa.me/${primaryPhone}?text=${encodeURIComponent(message)}`,
-        "_blank"
-      );
-    },
-    () => {
-      document.getElementById("status").innerText =
-        "⚠️ Unable to fetch location. Enable GPS.";
+    if (contacts.length === 0) {
+      alert("Please add an emergency contact first");
+      return;
     }
-  );
-};
 
-/* ---------- INITIAL LOAD ---------- */
+    let primaryContact = contacts.find(c => c.primary);
+    if (!primaryContact) primaryContact = contacts[0];
+
+    // Play siren
+    siren.currentTime = 0;
+    siren.play();
+
+    status.innerText = "📍 Fetching live location...";
+
+    if (!navigator.geolocation) {
+      status.innerText = "❌ Location not supported";
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        let lat = pos.coords.latitude;
+        let lon = pos.coords.longitude;
+
+        let locationLink = `https://maps.google.com/?q=${lat},${lon}`;
+
+        let message =
+          `🚨 EMERGENCY ALERT!\n` +
+          `I am in danger.\n\n` +
+          `Live Location:\n${locationLink}`;
+
+        status.innerText = "🚨 SOS sent to primary contact";
+
+        // Open WhatsApp (PRIMARY CONTACT)
+        window.open(
+          `https://wa.me/${primaryContact.phone}?text=${encodeURIComponent(message)}`,
+          "_blank"
+        );
+      },
+      () => {
+        status.innerText = "❌ Unable to get location. Enable GPS.";
+      }
+    );
+  };
+}
+
+// ================= FAKE CALL =================
+function startFakeCall() {
+  const screen = document.getElementById("fakeCallScreen");
+  const ringtone = document.getElementById("ringtone");
+
+  if (!screen || !ringtone) return;
+
+  screen.classList.remove("hidden");
+
+  ringtone.pause();
+  ringtone.currentTime = 0;
+
+  ringtone.play().catch(() => {
+    console.log("Audio blocked until user interaction");
+  });
+}
+
+function endFakeCall() {
+  const screen = document.getElementById("fakeCallScreen");
+  const ringtone = document.getElementById("ringtone");
+
+  if (!screen || !ringtone) return;
+
+  ringtone.pause();
+  ringtone.currentTime = 0;
+  screen.classList.add("hidden");
+}
+
+// ================= INITIAL LOAD =================
 displayContacts();
+
