@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emergency Contacts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="top-header">
+  <h1>👥 Emergency Contacts</h1>
+  <p>Add & manage trusted people</p>
+</header>
+
+<section class="card">
+  <input id="name" placeholder="Name">
+  <input id="phone" placeholder="Phone Number">
+  <button onclick="addContact()">➕ Add Contact</button>
+</section>
+
+<section class="card">
+  <small>⭐ = Primary Contact</small>
+  <ul id="contactList"></ul>
+</section>
+
+<a href="index.html" class="back-btn">⬅ Back to Home</a>
+
+<script src="script.js"></script>
+</body>
+</html>
