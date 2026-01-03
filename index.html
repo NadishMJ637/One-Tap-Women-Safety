@@ -1,47 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Women Safety Alert</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#b30000">
-
 </head>
 
 <body>
 
-<header>
+<!-- HEADER -->
+<header class="top-header">
   <h1>🛡️ Women Safety Alert</h1>
   <p>One tap can save a life</p>
 </header>
 
-<section class="card">
-  <h3>Add Emergency Contact</h3>
-  <input id="name" placeholder="Name">
-  <input id="phone" placeholder="Phone Number">
-  <button onclick="addContact()">➕ Add</button>
-</section>
+<!-- STATUS -->
+<p id="status" class="status">Ready to protect you</p>
 
-<section class="card">
-  <h3>Emergency Contacts</h3>
-  <ul id="contactList"></ul>
-</section>
+<!-- CENTER SOS -->
+<div class="sos-wrapper">
+  <button id="sosBtn">SOS</button>
+</div>
 
-<p id="status"></p>
+<!-- BOTTOM ACTION BAR -->
+<div class="bottom-bar">
+  <button class="small-btn" onclick="startFakeCall()">📞 Fake Call</button>
+  <a href="contacts.html" class="small-btn link-btn">👥 Contacts</a>
+</div>
 
-<button id="sosBtn">🚨 SOS</button>
-
+<!-- AUDIO -->
 <audio id="siren" src="siren.mp3"></audio>
 
+<!-- FAKE CALL SCREEN -->
+<div id="fakeCallScreen" class="fake-call hidden">
+  <div class="caller-box">
+    <h2>Mom</h2>
+    <p>Incoming Call...</p>
+    <div class="call-buttons">
+      <button class="decline" onclick="endFakeCall()">❌</button>
+      <button class="accept" onclick="endFakeCall()">✅</button>
+    </div>
+  </div>
+</div>
+
+<audio id="ringtone" src="ringtone.mp3" loop></audio>
+
 <script src="script.js"></script>
-
-<script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js")
-      .then(() => console.log("Service Worker Registered"));
-  }
-</script>
-
 </body>
 </html>
